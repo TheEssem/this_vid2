@@ -113,6 +113,8 @@ stream.on("tweet", async (tweet) => {
         console.log("Video failed to upload, skip");
       } else if (error.includes("You have been blocked from the author of this tweet.")) {
         console.log("Blocked by original poster, skip");
+      } else if (error.includes("Error while processing the decoded data for stream #2:0")) {
+        console.log("Content is gif, skip");
       } else {
         console.error;
       }

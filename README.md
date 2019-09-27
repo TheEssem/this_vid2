@@ -26,3 +26,5 @@ Finally, put your consumer key/secret and access token/secret obtained from the 
 This is a parody of video downloader bots and does not actually send users download links. If you need an actual Twitter video downloader, I recommend [youtube-dl](http://ytdl-org.github.io/youtube-dl/).
 
 **I AM NOT RESPONSIBLE FOR ANYTHING THAT HAPPENS TO YOUR ACCOUNT AS A RESULT OF HOSTING THIS.**
+
+Original @this_vid by [shalvah](https://twitter.com/theshalvah).
