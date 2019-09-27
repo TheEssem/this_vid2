@@ -1,0 +1,6 @@
+{
+  "consumerKey": "<PUT CONSUMER KEY HERE>",
+  "consumerSecret": "<PUT CONSUMER SECRET HERE>",
+  "accessToken": "<PUT ACCESS TOKEN HERE>",
+  "accessSecret": "<PUT ACCESS SECRET HERE>"
+}
