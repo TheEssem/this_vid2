@@ -20,7 +20,7 @@ sqlite3 tweets.sqlite
 sqlite> .exit
 ```
 
-Finally, put your consumer key/secret and access token/secret obtained from the [Twitter apps page](https://developer.twitter.com/apps) inside `config.json` and run `app.js`.
+Finally, put your consumer key/secret and access token/secret obtained from the [Twitter apps page](https://developer.twitter.com/apps) inside `config.json` and run `node app.js`.
 
 ## Disclaimer
 This is a parody of video downloader bots and does not actually send users download links. If you need an actual Twitter video downloader, I recommend [youtube-dl](http://ytdl-org.github.io/youtube-dl/).
