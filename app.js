@@ -30,7 +30,7 @@ const setup = async () => {
 setup();
 
 const stream = client.stream("statuses/filter", {
-  track: "@this_vid2"
+  track: `@${config.accountName}`
 });
 
 let isRateLimited = false;
