@@ -43,7 +43,7 @@ stream.on("tweet", async (tweet) => {
           id: tweet.in_reply_to_status_id_str
         });
         if (originalTweet.data.possibly_sensitive !== true) {
-          if (!originalTweet.data.text.includes("@this_vid2") && originalTweet.data.user.screen_name !== "this_vid2") {
+          if (!originalTweet.data.text.includes(`@${config.accountName}`) && originalTweet.data.user.screen_name !== `@${config.accountName}`) {
             const tweetsArray = await db.get("oldTweets");
             const tweets = tweetsArray !== undefined ? tweetsArray : [];
             const cooldownArray = await db.get("cooldown");
