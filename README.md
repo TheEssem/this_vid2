@@ -7,7 +7,7 @@ The objectively best Twitter video downloader bot.
 Requires Node.js, FFmpeg, and SQLite3:
 
 ```shell
-sudo apt install nodejs ffmpeg sqlite3
+sudo apt install nodejs ffmpeg frei0r-plugins
 ```
 
 Once they're installed, install the required modules using npm:
@@ -15,17 +15,10 @@ Once they're installed, install the required modules using npm:
 npm install
 ```
 
-Then, create the database using sqlite3:
-```shell
-sqlite3 tweets.sqlite
-
-sqlite> .exit
-```
-
 Finally, put your consumer key/secret and access token/secret obtained from the [Twitter apps page](https://developer.twitter.com/apps) inside `config.json` and run `node app.js`.
 
 ## Disclaimer
-This is a parody of video downloader bots and does not actually send users download links. If you need an actual Twitter video downloader, I recommend [youtube-dl](http://ytdl-org.github.io/youtube-dl/).
+This is a parody of video downloader bots and does not actually send users download links. If you need an actual Twitter video downloader, I highly recommend [youtube-dl](http://ytdl-org.github.io/youtube-dl/).
 
 **I AM NOT RESPONSIBLE FOR ANYTHING THAT HAPPENS TO YOUR ACCOUNT AS A RESULT OF HOSTING THIS.**
 

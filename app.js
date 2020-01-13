@@ -5,34 +5,23 @@ const generateVideo = require("./generateVideo.js");
 const upload = require("./upload.js");
 const fetch = require("node-fetch");
 const fs = require("fs-extra");
-const keyv = require("keyv");
 const client = new Twit({
   consumer_key: config.consumerKey,
   consumer_secret: config.consumerSecret,
   access_token: config.accessToken,
   access_token_secret: config.accessSecret
 });
-const db = new keyv("sqlite://tweets.sqlite");
 
-db.on("error", err => console.error("Keyv connection error:", err));
-
-const setup = async () => {
-  const tweets = await db.get("oldTweets");
-  if (!Array.isArray(tweets)) {
-    await db.set("oldTweets", []);
-  }
-  await db.set("cooldown", []);
-  fs.access("./cache/").catch(error => {
-    if (error) fs.mkdir("./cache/");
-  });
-};
-
-setup();
+fs.access("./cache/").catch(error => {
+  if (error) fs.mkdir("./cache/");
+});
 
 const stream = client.stream("statuses/filter", {
   track: `@${config.accountName}`
 });
 
+const tweets = [];
+const cooldown = [];
 let isRateLimited = false;
 
 stream.on("tweet", async (tweet) => {
@@ -44,10 +33,6 @@ stream.on("tweet", async (tweet) => {
         });
         if (originalTweet.data.possibly_sensitive !== true) {
           if (!originalTweet.data.text.includes(`@${config.accountName}`) && originalTweet.data.user.screen_name !== `@${config.accountName}`) {
-            const tweetsArray = await db.get("oldTweets");
-            const tweets = tweetsArray !== undefined ? tweetsArray : [];
-            const cooldownArray = await db.get("cooldown");
-            const cooldown = cooldownArray !== undefined ? cooldownArray : [];
             if (!tweets.includes(originalTweet.data.id_str) && !cooldown.includes(tweet.user.id_str)) {
               const url = await getVideoURL(originalTweet.data, client);
               if (url !== undefined) {
@@ -66,13 +51,10 @@ stream.on("tweet", async (tweet) => {
 
                 tweets.push(originalTweet.data.id_str);
                 cooldown.push(tweet.user.id_str);
-                await db.set("oldTweets", tweets);
-                await db.set("cooldown", cooldown);
                 setTimeout(async () => {
                   cooldown.filter((value) => {
                     return value !== tweet.user.id_str;
                   });
-                  await db.set("cooldown", cooldown);
                 }, 1800000);
 
                 const messages = [

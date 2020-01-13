@@ -33,6 +33,13 @@ module.exports = (filename, handle) => {
         inputs: "audio2",
         outputs: "audioFinal"
       }, {
+        filter: "frei0r",
+        options: {
+          filter_name: "pixeliz0r"
+        },
+        inputs: "0:v",
+        outputs: "video1"
+      }, {
         filter: "drawtext",
         options: {
           fontfile: "'./assets/DejaVuSans.ttf'",
@@ -45,8 +52,8 @@ module.exports = (filename, handle) => {
           x: "(w-text_w)",
           y: "0"
         },
-        inputs: "0:v",
-        outputs: "video1"
+        inputs: "video1",
+        outputs: "video2"
       }, {
         filter: "drawtext",
         options: {
@@ -60,8 +67,8 @@ module.exports = (filename, handle) => {
           x: "0",
           y: "0"
         },
-        inputs: "video1",
-        outputs: "video2"
+        inputs: "video2",
+        outputs: "video3"
       }, {
         filter: "drawtext",
         options: {
@@ -75,34 +82,41 @@ module.exports = (filename, handle) => {
           x: "(w-text_w)/2",
           y: "(h-text_h)/2"
         },
-        inputs: "video2",
-        outputs: "video3"
+        inputs: "video3",
+        outputs: "video4"
       }, {
         filter: "drawtext",
         options: {
           fontfile: "'./assets/Topaz.ttf'",
-          text: "This video was downloaded using @this_vid2. Any unauthorized usage or reupload of this video is disallowed by @this_vid2 Enterprises. Visit https//twitter.com/this_vid2 for more information.",
+          text: "This video was downloaded using @this_vid2. Any unauthorized usage or reupload of this video is disallowed by @this_vid2 Enterprises. Visit https//projectlounge.pw/thisvid2 for more information.",
           fontcolor: "white",
           fontsize: outputFontSize.toString(),
           y: "h-line_h-10",
           x: "w-mod(max(t-4.5\\,0)*(w+tw)/7.5\\,(w+tw))"
         },
-        inputs: "video3",
-        outputs: "video4"
+        inputs: "video4",
+        outputs: "video5"
       }, {
         filter: "scale",
         options: {
           h: "240",
           w: "320"
         },
-        inputs: "video4",
-        outputs: "video5"
+        inputs: "video5",
+        outputs: "video6"
+      }, {
+        filter: "setsar",
+        options: {
+          sar: "1"
+        },
+        inputs: "video6",
+        outputs: "video7"
       }, {
         filter: "trim",
         options: {
           duration: duration
         },
-        inputs: "video5",
+        inputs: "video7",
         outputs: "videoFinal"
       }, {
         filter: "concat",
@@ -111,19 +125,12 @@ module.exports = (filename, handle) => {
           v: 1,
           a: 1
         },
-        inputs: ["videoFinal", "audioFinal", metadata.streams.length >= 2 ? "1:v" : "2:v", metadata.streams.length >= 2 ? "1:a" : "2:a"],
+        inputs: ["videoFinal", "audioFinal", "1:v", "1:a"],
         outputs: ["v", "a"]
       }];
-      if (metadata.streams.length >= 2) {
-        ffmpeg(filename).input("./assets/outro.mp4").duration(duration + 5).videoBitrate(150).fps(5).audioChannels(1).audioBitrate(8).complexFilter(filters, ["v", "a"]).on("end", () => {
-          resolve(outputFilename);
-        }).save(outputFilename);
-      } else {
-        ffmpeg(filename).input("./assets/silence.mp3").input("./assets/outro.mp4").duration(duration + 5).videoBitrate(150).fps(5).audioChannels(1).audioBitrate(8).complexFilter(filters, ["v", "a"]).on("end", () => {
-          resolve(outputFilename);
-        }).save(outputFilename);
-      }
+      ffmpeg(filename).input("./assets/outro.mp4").duration(duration + 5).videoBitrate(150).fps(5).audioChannels(1).audioBitrate(8).complexFilter(filters, ["v", "a"]).on("end", () => {
+        resolve(outputFilename);
+      }).save(outputFilename);
     });
   });
 };
-
