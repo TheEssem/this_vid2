@@ -32,7 +32,7 @@ stream.on("tweet", async (tweet) => {
           id: tweet.in_reply_to_status_id_str
         });
         if (originalTweet.data.possibly_sensitive !== true) {
-          if (!originalTweet.data.text.includes(`@${config.accountName}`) && originalTweet.data.user.screen_name !== `@${config.accountName}`) {
+          if (!originalTweet.data.text.includes(`@${config.accountName}`) && originalTweet.data.user.screen_name !== config.accountName) {
             if (!tweets.includes(originalTweet.data.id_str) && !cooldown.includes(tweet.user.id_str)) {
               const url = await getVideoURL(originalTweet.data, client);
               if (url !== undefined) {
