@@ -15,7 +15,7 @@ module.exports = (filename, handle) => {
           enable: `between(t,0,${duration}/2)`,
           volume: "0.25"
         },
-        inputs: metadata.streams.length >= 2 ? "0:a" : "1:a",
+        inputs: metadata.streams.length >= 2 ? "0:a" : "2:a",
         outputs: "audio1"
       }, {
         filter: "volume",
@@ -128,7 +128,7 @@ module.exports = (filename, handle) => {
         inputs: ["videoFinal", "audioFinal", "1:v", "1:a"],
         outputs: ["v", "a"]
       }];
-      ffmpeg(filename).input("./assets/outro.mp4").duration(duration + 5).videoBitrate(150).fps(5).audioChannels(1).audioBitrate(8).complexFilter(filters, ["v", "a"]).on("end", () => {
+      ffmpeg(filename).input("./assets/outro.mp4").duration(duration + 5).videoBitrate(150).fps(5).input("anullsrc").inputFormat("lavfi").audioChannels(1).audioBitrate(8).complexFilter(filters, ["v", "a"]).on("end", () => {
         resolve(outputFilename);
       }).save(outputFilename);
     });
