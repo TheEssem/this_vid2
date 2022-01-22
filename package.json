@@ -6,7 +6,7 @@
   "dependencies": {
     "fluent-ffmpeg": "^2.1.2",
     "fs-extra": "^8.1.0",
-    "node-fetch": "^2.3.0",
+    "node-fetch": "^3.1.1",
     "twit": "github:tykarol/twit"
   },
   "devDependencies": {
